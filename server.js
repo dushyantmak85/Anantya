@@ -10,7 +10,8 @@ const multer = require('multer');
 const vision = require('@google-cloud/vision');
 
 // Set Google Cloud Vision credentials
-process.env.GOOGLE_APPLICATION_CREDENTIALS = './vision-key.json';
+process.env.GOOGLE_APPLICATION_CREDENTIALS = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+const Mongo_URI=process.env.Mongo_URI;
 
 // Initialize Vision API Client
 const client = new vision.ImageAnnotatorClient();
@@ -24,7 +25,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // Connect to MongoDB
-mongoose.connect("mongodb://localhost:27017/registration");
+mongoose.connect(Mongo_URI);
 
 // Create a schema
 
@@ -49,7 +50,8 @@ userSchema.plugin(encrypt,{secret:secret,encryptedFields:["password"]});
 
 
 // Create a model
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model("Anantya_Collection", userSchema,);
+
 
 
 // Serve static files (CSS, images, etc.)
@@ -159,16 +161,17 @@ app.post('/extract-epic', upload.single('voterIdImage'), async (req, res) => {
     if (matches && matches.length > 0) {
       const epicNumber = matches[0];
       console.log(`Extracted EPIC Number: ${epicNumber}`);
-      const voterData = await fetchVoterDetails(epicNumber);
+      //const voterData = await fetchVoterDetails(epicNumber);
 
-      if (voterData.found) {
+      /*if (voterData.found) {
         res.json({ success: true, data: voterData.details });
       } else {
         res.json({ success: false, message: 'Voter not found!' });
       }
-    }     
-    else {
-      res.json({ epic: null, message: 'No valid EPIC number found!' });
+    } */    
+      res.json({ epic: epicNumber, message: 'EPIC number extracted successfully!' });
+    } else {
+      res.json({ epic: null, message: 'No EPIC number found!' });
     }
   } catch (error) {
     console.error('Error processing image:', error);

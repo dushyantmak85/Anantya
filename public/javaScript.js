@@ -7,7 +7,7 @@ card1.addEventListener('click', function(){
 
 //Voter Count card
 
-let count = 0;
+/*let count = 0;
 let countElement = document.querySelector('.count');
 
 function updateCounter() {
@@ -47,6 +47,15 @@ function updateCounter() {
 setInterval(updateCounter, 3000);
 
 // Card Container Transition on Scroll 
+
+*/ 
+
+// ECI Updates
+
+const updates = document.querySelector('.card3');
+updates.addEventListener('click', function(){
+    window.location.href = 'https://www.eci.gov.in/';
+});
 
 
 
