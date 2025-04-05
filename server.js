@@ -146,6 +146,7 @@ app.post('/extract-epic', upload.single('voterIdImage'), async (req, res) => {
 
   try {
     // Send the image to Vision API for text detection
+
     const [result] = await client.textDetection(filePath);
     const detections = result.textAnnotations;
 
@@ -154,6 +155,7 @@ app.post('/extract-epic', upload.single('voterIdImage'), async (req, res) => {
     }
 
     // Extract EPIC number (usually 10 alphanumeric characters)
+
     const text = detections[0].description;
     const epicRegex = /\b[A-Z]{3}[0-9]{7}\b/g;
     const matches = text.match(epicRegex);
@@ -161,6 +163,7 @@ app.post('/extract-epic', upload.single('voterIdImage'), async (req, res) => {
     if (matches && matches.length > 0) {
       const epicNumber = matches[0];
       console.log(`Extracted EPIC Number: ${epicNumber}`);
+
       //const voterData = await fetchVoterDetails(epicNumber);
 
       /*if (voterData.found) {
@@ -168,7 +171,9 @@ app.post('/extract-epic', upload.single('voterIdImage'), async (req, res) => {
       } else {
         res.json({ success: false, message: 'Voter not found!' });
       }
-    } */    
+      } */    
+
+      
       res.json({ epic: epicNumber, message: 'EPIC number extracted successfully!' });
     } else {
       res.json({ epic: null, message: 'No EPIC number found!' });
