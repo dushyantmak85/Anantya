@@ -13,8 +13,6 @@ const vision = require('@google-cloud/vision');
 // Set Google Cloud Vision credentials
 const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS);
 
-const Mongo_URI=process.env.Mongo_URI;
-
 // Initialize Vision API Client
 const client = new vision.ImageAnnotatorClient({
   credentials,
@@ -28,8 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// Connect to MongoDB
-mongoose.connect(Mongo_URI);
+
 
 // Create a schema
 
