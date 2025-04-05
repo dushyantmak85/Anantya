@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require("express");
 const app = express();
 const path = require("path");
+const fs = require("fs");
 const bodyParser = require("body-parser");
 const mongoose=require('mongoose');
 const Schema = mongoose.Schema;
@@ -10,11 +11,14 @@ const multer = require('multer');
 const vision = require('@google-cloud/vision');
 
 // Set Google Cloud Vision credentials
-process.env.GOOGLE_APPLICATION_CREDENTIALS = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+const credentials = JSON.parse(process.env.GOOGLE_APPLICATION_CREDENTIALS);
+
 const Mongo_URI=process.env.Mongo_URI;
 
 // Initialize Vision API Client
-const client = new vision.ImageAnnotatorClient();
+const client = new vision.ImageAnnotatorClient({
+  credentials,
+});
 
 // Set storage for image upload
 const upload = multer({ dest: 'uploads/' });
